@@ -214,8 +214,11 @@ export default function DashboardPage() {
                     </button>
                     <button
                       className="btn btn-outline-light me-2"
-                      onClick={() => {window.open('/print', '_blank');
-
+                      onClick={() => {
+                        if (plantInfo?.name) {
+                            localStorage.setItem('printPlantName', plantInfo.name);
+                        }
+                        window.open('/print', '_blank');
                       }}
                     >
                       PDF

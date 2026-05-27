@@ -124,7 +124,7 @@ export default function GroupedBarChart({ data, isPrintMode = false }) {
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={chartData}
-            margin={{ top: 40, right: 30, left: 10, bottom: 90 }}
+            margin={{ top: 40, right: 30, left: 10, bottom: 0 }}
             barGap={12}
             barSize={printMode ? 55 : 40}
           >

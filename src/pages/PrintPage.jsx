@@ -5,6 +5,14 @@ import RadarChartComponent from '../components/Dashboard/RadarChart';
 import GroupedBarChart from '../components/Dashboard/GroupedBarChart';
 import HeatMapVertical from '../components/Dashboard/HeatMapVertical';
 
+const COLORS = {
+  brightGreen: '#92D050',
+  brightRed: '#C0504D',
+  darkBlue: '#1a3a5c',
+  lightBlue: '#e3f2fd',
+  white: '#ffffff'
+};
+
 export default function PrintPage() {
   const [chartData, setChartData] = useState([]);
   const [tableData, setTableData] = useState([]);
@@ -15,12 +23,14 @@ export default function PrintPage() {
   const [regionInfo, setRegionInfo] = useState(null);
   const [loading, setLoading] = useState(true);
   const [printReady, setPrintReady] = useState(false);
+  const [plantAbbr, setPlantAbbr] = useState('');
 
   useEffect(() => {
     const loadData = async () => {
       try {
         const storedPlant = localStorage.getItem('selectedPlant');
         const storedRegion = localStorage.getItem('selectedRegion');
+        const printPlantName = localStorage.getItem('printPlantName');
 
         if (!storedPlant) {
           throw new Error('Завод не выбран.');
@@ -30,6 +40,7 @@ export default function PrintPage() {
         const region = storedRegion ? JSON.parse(storedRegion) : null;
 
         setPlantInfo(plant);
+        setPlantAbbr(printPlantName || plant.name || '');
         if (region) setRegionInfo(region);
 
         const [chartResult, tableResult, closedTasksResult] = await Promise.all([
@@ -64,13 +75,17 @@ export default function PrintPage() {
     loadData();
   }, []);
 
+  // Автоматическая печать после загрузки с именем файла
   useEffect(() => {
     if (printReady) {
       setTimeout(() => {
+        // Меняем заголовок страницы для имени файла при печати
+        const title = `${plantAbbr || 'audit'}_audit_report_${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}`;
+        document.title = title;
         window.print();
       }, 1000);
     }
-  }, [printReady]);
+  }, [printReady, plantAbbr]);
 
   const radarDataFull = chartData.map(item => ({
     subject: item.name,
