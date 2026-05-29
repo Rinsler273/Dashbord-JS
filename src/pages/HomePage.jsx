@@ -23,14 +23,14 @@ export default function HomePage() {
       <Row className="justify-content-center mb-4 mt-5">
         <Col md={12} className="text-center">
           <h1 className="mb-3">
-            Дашборд аудита заводов
+            Дашборд аудита предприятий
           </h1>
           <p className="text-muted lead">
             Система визуализации результатов производственного аудита
           </p>
           <div className="mt-3">
             <Link to="/rating" className="btn btn-outline-primary me-2">
-               Рейтинг заводов
+               Рейтинг предприятий
             </Link>
           </div>
         </Col>
@@ -42,7 +42,7 @@ export default function HomePage() {
           <Card className="shadow-sm">
             <Card.Header className="bg-primary text-white">
               <h5 className="mb-0">
-                Выберите регион для просмотра дашборда
+                Выберите регион для просмотра предприятия
               </h5>
             </Card.Header>
             <Card.Body>
@@ -59,7 +59,7 @@ export default function HomePage() {
             <Card className="shadow-sm">
               <Card.Header className="d-flex justify-content-between align-items-center flex-wrap">
                 <h5 className="mb-0">
-                  Доступные заводы для аудита
+                  Доступные предприятия для просмотра
                 </h5>
                 <div className="mt-2 mt-sm-0">
                 </div>

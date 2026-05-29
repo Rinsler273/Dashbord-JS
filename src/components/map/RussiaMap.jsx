@@ -39,7 +39,7 @@ export default function RussiaMap() {
         
         {/* Заголовок карты */}
         <div style={{ position: 'absolute', top: '0', left: '0', right: '0', padding: '15px 20px', background: 'linear-gradient(135deg, #2c5aa0 0%, #1e40af 100%)', color: '#ffffff', zIndex: 100, borderBottom: '1px solid rgba(255,255,255,0.2)' }}>
-          <h3 style={{ margin: 0, fontSize: '18px', fontWeight: '600' }}>Карта заводов для аудита</h3>
+          <h3 style={{ margin: 0, fontSize: '18px', fontWeight: '600' }}>Карта доступных предприятий для аудита</h3>
           <p style={{ margin: '5px 0 0 0', fontSize: '13px', opacity: 0.9 }}>Выберите регион для просмотра результатов</p>
         </div>
 
@@ -89,7 +89,7 @@ export default function RussiaMap() {
           <div style={{ fontWeight: '600', marginBottom: '10px', color: '#2c5aa0' }}>Легенда</div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
             <span style={{ width: '14px', height: '14px', borderRadius: '50%', background: 'linear-gradient(135deg, #2c5aa0 0%, #1e40af 100%)', border: '2px solid #fff', boxShadow: '0 2px 4px rgba(0,0,0,0.2)', display: 'inline-block' }}></span>
-            <span>Завод для аудита</span>
+            <span>Доступные предприятия</span>
           </div>
           <div style={{ fontSize: '11px', color: '#666', marginTop: '8px', paddingTop: '8px', borderTop: '1px solid #eee' }}>Кликните на маркер для просмотра</div>
         </div>

@@ -135,7 +135,7 @@ export default function RatingPage() {
               <div>
                 <h2 className="mb-1">
                   <i className="fas fa-chart-line me-2"></i>
-                  Рейтинг заводов
+                  Рейтинг предприятий
                 </h2>
                 <p className="mb-0 opacity-75">Сравнение результатов аудита всех предприятий</p>
               </div>
