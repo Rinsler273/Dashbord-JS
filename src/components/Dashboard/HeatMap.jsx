@@ -63,7 +63,7 @@ export default function HeatMap({ data, onCategoryClick, hideLegend = false }) {
           </thead>
           <tbody>
             <tr className="data-row">
-              <td className="row-label">Самооценка завода</td>
+              <td className="row-label">Результат самоаудита</td>
               {categories.map((cat, catIndex) => (
                 <td
                   key={`self-table${tableIndex}-cat${catIndex}`}
@@ -209,7 +209,7 @@ export default function HeatMap({ data, onCategoryClick, hideLegend = false }) {
                 fontSize: '14px',
                 whiteSpace: 'nowrap'
               }}>0.00</span>
-              <span style={{ fontFamily: 'Arial, sans-serif', fontWeight: '700', whiteSpace: 'nowrap' }}>Самооценка завода</span>
+              <span style={{ fontFamily: 'Arial, sans-serif', fontWeight: '700', whiteSpace: 'nowrap' }}>Самоаудит</span>
             </span>
             <span style={{
               display: 'inline-flex',

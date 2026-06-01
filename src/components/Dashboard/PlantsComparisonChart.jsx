@@ -65,7 +65,7 @@ export default function PlantsComparisonChart() {
               labelFormatter={(label) => `${label}`}
             />
             <Legend />
-            <Bar name="Самооценка" dataKey="selfAudit" fill="#e3f2fd" />
+            <Bar name="Самраудит" dataKey="selfAudit" fill="#e3f2fd" />
             <Bar name="Аудит" dataKey="audit" fill="#92D050" />
           </BarChart>
         </ResponsiveContainer>

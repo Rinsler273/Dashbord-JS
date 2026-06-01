@@ -162,7 +162,7 @@ export default function RatingPage() {
                     </th>
                     <th style={{ color: COLORS.darkBlue }}>Регион</th>
                     <th style={{ cursor: 'pointer', textAlign: 'center', color: COLORS.darkBlue }} onClick={() => handleSort('selfAudit')}>
-                      Самооценка {sortBy === 'selfAudit' && (sortOrder === 'asc' ? '↑' : '↓')}
+                      Самоаудит {sortBy === 'selfAudit' && (sortOrder === 'asc' ? '↑' : '↓')}
                     </th>
                     <th style={{ cursor: 'pointer', textAlign: 'center', color: COLORS.darkBlue }} onClick={() => handleSort('audit')}>
                       Аудит {sortBy === 'audit' && (sortOrder === 'asc' ? '↑' : '↓')}

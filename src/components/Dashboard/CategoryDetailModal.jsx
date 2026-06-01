@@ -35,7 +35,7 @@ export default function CategoryDetailModal({ show, onHide, category }) {
           <div className="col-md-6 mb-3">
             <div className="card" style={{ background: COLORS.lightBlue }}>
               <div className="card-body text-center">
-                <h6 style={{ color: COLORS.darkBlue, opacity: 0.7 }}>Самооценка завода</h6>
+                <h6 style={{ color: COLORS.darkBlue, opacity: 0.7 }}>Результат самоаудита</h6>
                 <h2 style={{ color: COLORS.darkBlue, fontSize: '28px', fontWeight: '700' }}>
                   {category.selfAudit.toFixed(2)} / 5.00
                 </h2>
@@ -58,7 +58,7 @@ export default function CategoryDetailModal({ show, onHide, category }) {
           <div className="col-md-6 mb-3">
             <div className="card" style={{ background: COLORS.lightBlue }}>
               <div className="card-body text-center">
-                <h6 style={{ color: COLORS.darkBlue, opacity: 0.7 }}>Самооценка (мероприятия)</h6>
+                <h6 style={{ color: COLORS.darkBlue, opacity: 0.7 }}>Самоаудит (мероприятия)</h6>
                 <h2 style={{ color: COLORS.darkBlue, fontSize: '28px', fontWeight: '700' }}>
                   {selfAuditCount} / {totalQuestions}
                 </h2>

@@ -80,7 +80,7 @@ export default function HeatMapVertical({ data, hideLegend = false }) {
                   Категория / Показатель
                 </th>
                 <th style={{ padding: '12px', border: '1px solid #dee2e6', textAlign: 'center', minWidth: '100px' }}>
-                  Самооценка
+                  Результат самоаудита
                 </th>
                 <th style={{ padding: '12px', border: '1px solid #dee2e6', textAlign: 'center', minWidth: '100px' }}>
                   Результат аудита
@@ -164,7 +164,7 @@ export default function HeatMapVertical({ data, hideLegend = false }) {
           <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', justifyContent: 'center' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
               <div style={{ width: '16px', height: '16px', background: COLORS.lightBlue, border: '1px solid #1a3a5c' }}></div>
-              <span style={{ fontSize: '11px' }}>Самооценка</span>
+              <span style={{ fontSize: '11px' }}>Самоаудит</span>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
               <div style={{ width: '16px', height: '16px', background: COLORS.brightGreen }}></div>
