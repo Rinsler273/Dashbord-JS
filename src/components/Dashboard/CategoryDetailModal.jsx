@@ -112,7 +112,7 @@ export default function CategoryDetailModal({ show, onHide, category }) {
               {diff >= 0 ? 'Положительная динамика' : 'Требует внимания'}
             </h5>
             <p className="mb-0" style={{ fontSize: '14px' }}>
-              Разница между аудитом и самооценкой: <strong style={{ color: diffColor }}>{diff >= 0 ? `+${diff}` : diff}</strong>
+              Разница между аудитом и самоаудитом: <strong style={{ color: diffColor }}>{diff >= 0 ? `+${diff}` : diff}</strong>
             </p>
           </div>
         </div>
@@ -129,7 +129,6 @@ export default function CategoryDetailModal({ show, onHide, category }) {
               <>
                 <li>Проведите дополнительный анализ причин расхождения</li>
                 <li>Разработайте план корректирующих мероприятий</li>
-                <li>Запланируйте повторную оценку</li>
               </>
             )}
           </ul>

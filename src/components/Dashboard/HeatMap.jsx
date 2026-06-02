@@ -83,7 +83,7 @@ export default function HeatMap({ data, onCategoryClick, hideLegend = false }) {
             <thead>
               {/* Строка с заголовками разделов (без коэффициентов) */}
               <tr>
-                <th className="criteria-header" style={{ verticalAlign: 'middle' }}>Раздел</th>
+                <th className="criteria-header" style={{ verticalAlign: 'middle' }}>Критерий</th>
                 {sections.map((section, sectionIdx) => {
                   const sectionCatCount = section.categories.length;
                   return (
@@ -117,7 +117,7 @@ export default function HeatMap({ data, onCategoryClick, hideLegend = false }) {
             </thead>
             <tbody>
               <tr className="data-row">
-                <td className="row-label">Результат самоаудита</td>
+                <td className="row-label">Самооценка завода</td>
                 {categories.map((cat, catIndex) => (
                   <td
                     key={`self-table${tableIndex}-cat${catIndex}`}
@@ -218,6 +218,7 @@ export default function HeatMap({ data, onCategoryClick, hideLegend = false }) {
           marginBottom: '30px'
         }}
       >
+        <i className="fas fa-fire me-2"></i>
         Тепловая карта результатов аудита
       </Card.Header>
       <Card.Body className="p-0">
@@ -264,7 +265,7 @@ export default function HeatMap({ data, onCategoryClick, hideLegend = false }) {
                 fontSize: '14px',
                 whiteSpace: 'nowrap'
               }}>0.00</span>
-              <span style={{ fontFamily: 'Arial, sans-serif', fontWeight: '700', whiteSpace: 'nowrap' }}>Результат самоаудита</span>
+              <span style={{ fontFamily: 'Arial, sans-serif', fontWeight: '700', whiteSpace: 'nowrap' }}>Самооценка завода</span>
             </span>
             <span style={{ 
               display: 'inline-flex', 
