@@ -28,6 +28,7 @@ export default function HeatMap({ data, onCategoryClick, hideLegend = false }) {
     return COLORS.white;
   };
 
+  // Собираем все категории с информацией о разделе
   const allCategories = [];
   data.forEach((section) => {
     section.categories.forEach((cat) => {
@@ -36,6 +37,7 @@ export default function HeatMap({ data, onCategoryClick, hideLegend = false }) {
         value: cat.value ?? 0,
         auditValue: cat.auditValue ?? 0,
         sectionName: section.sectionName,
+        sectionCoefficient: section.coefficient,
         selfAuditCount: cat.trueCount || 0,
         auditCount: cat.auditCount || 0,
         totalQuestions: cat.totalQuestions || 0
@@ -47,55 +49,80 @@ export default function HeatMap({ data, onCategoryClick, hideLegend = false }) {
   const firstHalf = allCategories.slice(0, midpoint);
   const secondHalf = allCategories.slice(midpoint);
 
-  const renderTableHalf = (categories, tableIndex) => (
-    <div key={`table-${tableIndex}`} className="heatmap-table-container" style={{ marginBottom: '40px' }}>
-      <div className="heatmap-wrapper">
-        <table className="heatmap-table">
-          <thead>
-            <tr>
-              <th className="criteria-header">Критерий</th>
-              {categories.map((cat, catIndex) => (
-                <th key={`table${tableIndex}-cat${catIndex}`} className="category-header">
-                  <span>{cat.name}</span>
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            <tr className="data-row">
-              <td className="row-label">Результат самоаудита</td>
-              {categories.map((cat, catIndex) => (
-                <td
-                  key={`self-table${tableIndex}-cat${catIndex}`}
-                  className="data-cell self-audit"
-                  style={{ cursor: 'pointer' }}
-                  onClick={() => onCategoryClick && onCategoryClick({
-                    name: cat.name,
-                    selfAudit: cat.value,
-                    auditValue: cat.auditValue,
-                    sectionName: cat.sectionName,
-                    selfAuditCount: cat.selfAuditCount,
-                    auditCount: cat.auditCount,
-                    totalQuestions: cat.totalQuestions
-                  })}
-                >
-                  {(cat.value ?? 0).toFixed(2)}
-                </td>
-              ))}
-            </tr>
+  // Функция для группировки категорий по разделам в пределах половины
+  const groupBySection = (categories) => {
+    const sections = [];
+    let currentSection = null;
+    let sectionCategories = [];
+    
+    categories.forEach((cat) => {
+      if (!currentSection || currentSection !== cat.sectionName) {
+        if (currentSection) {
+          sections.push({ sectionName: currentSection, categories: [...sectionCategories] });
+          sectionCategories = [];
+        }
+        currentSection = cat.sectionName;
+      }
+      sectionCategories.push(cat);
+    });
+    
+    if (currentSection) {
+      sections.push({ sectionName: currentSection, categories: sectionCategories });
+    }
+    
+    return sections;
+  };
 
-            <tr className="data-row audit-row">
-              <td className="row-label">Результат аудита</td>
-              {categories.map((cat, catIndex) => {
-                const catSelfAudit = cat.value ?? 0;
-                const catAudit = cat.auditValue ?? 0;
-                const bgColor = getHeatMapColor(catSelfAudit, catAudit);
-
-                return (
+  const renderTableHalf = (categories, tableIndex) => {
+    const sections = groupBySection(categories);
+    
+    return (
+      <div key={`table-${tableIndex}`} className="heatmap-table-container" style={{ marginBottom: '40px' }}>
+        <div className="heatmap-wrapper">
+          <table className="heatmap-table">
+            <thead>
+              {/* Строка с заголовками разделов (без коэффициентов) */}
+              <tr>
+                <th className="criteria-header" style={{ verticalAlign: 'middle' }}>Раздел</th>
+                {sections.map((section, sectionIdx) => {
+                  const sectionCatCount = section.categories.length;
+                  return (
+                    <th
+                      key={`section-header-${tableIndex}-${sectionIdx}`}
+                      colSpan={sectionCatCount}
+                      style={{
+                        background: COLORS.darkBlue,
+                        color: COLORS.white,
+                        padding: '8px 10px',
+                        fontSize: '14px',
+                        fontWeight: '700',
+                        textAlign: 'center',
+                        border: '1px solid rgba(255,255,255,0.3)'
+                      }}
+                    >
+                      {section.sectionName}
+                    </th>
+                  );
+                })}
+               </tr>
+              {/* Строка с названиями категорий */}
+              <tr>
+                <th className="criteria-header">Категория</th>
+                {categories.map((cat, catIndex) => (
+                  <th key={`table${tableIndex}-cat${catIndex}`} className="category-header">
+                    <span>{cat.name}</span>
+                  </th>
+                ))}
+               </tr>
+            </thead>
+            <tbody>
+              <tr className="data-row">
+                <td className="row-label">Результат самоаудита</td>
+                {categories.map((cat, catIndex) => (
                   <td
-                    key={`audit-table${tableIndex}-cat${catIndex}`}
-                    className="data-cell audit-result"
-                    style={{ backgroundColor: bgColor, cursor: 'pointer', color: getTextColor(bgColor) }}
+                    key={`self-table${tableIndex}-cat${catIndex}`}
+                    className="data-cell self-audit"
+                    style={{ cursor: 'pointer' }}
                     onClick={() => onCategoryClick && onCategoryClick({
                       name: cat.name,
                       selfAudit: cat.value,
@@ -106,45 +133,73 @@ export default function HeatMap({ data, onCategoryClick, hideLegend = false }) {
                       totalQuestions: cat.totalQuestions
                     })}
                   >
-                    {catAudit.toFixed(2)}
+                    {(cat.value ?? 0).toFixed(2)}
                   </td>
-                );
-              })}
-            </tr>
+                ))}
+              </tr>
 
-            <tr className="data-row dynamics-row">
-              <td className="row-label">Динамика</td>
-              {categories.map((cat, catIndex) => {
-                const catSelfAudit = cat.value ?? 0;
-                const catAudit = cat.auditValue ?? 0;
-                const catDynamics = catAudit - catSelfAudit;
-                const bgColor = getDynamicsColor(catDynamics);
+              <tr className="data-row audit-row">
+                <td className="row-label">Результат аудита</td>
+                {categories.map((cat, catIndex) => {
+                  const catSelfAudit = cat.value ?? 0;
+                  const catAudit = cat.auditValue ?? 0;
+                  const bgColor = getHeatMapColor(catSelfAudit, catAudit);
+                  
+                  return (
+                    <td 
+                      key={`audit-table${tableIndex}-cat${catIndex}`}
+                      className="data-cell audit-result"
+                      style={{ backgroundColor: bgColor, cursor: 'pointer', color: getTextColor(bgColor) }}
+                      onClick={() => onCategoryClick && onCategoryClick({
+                        name: cat.name,
+                        selfAudit: cat.value,
+                        auditValue: cat.auditValue,
+                        sectionName: cat.sectionName,
+                        selfAuditCount: cat.selfAuditCount,
+                        auditCount: cat.auditCount,
+                        totalQuestions: cat.totalQuestions
+                      })}
+                    >
+                      {catAudit.toFixed(2)}
+                    </td>
+                  );
+                })}
+              </tr>
 
-                return (
-                  <td
-                    key={`dynamics-table${tableIndex}-cat${catIndex}`}
-                    className="data-cell dynamics"
-                    style={{ backgroundColor: bgColor, cursor: 'pointer', color: COLORS.white }}
-                    onClick={() => onCategoryClick && onCategoryClick({
-                      name: cat.name,
-                      selfAudit: cat.value,
-                      auditValue: cat.auditValue,
-                      sectionName: cat.sectionName,
-                      selfAuditCount: cat.selfAuditCount,
-                      auditCount: cat.auditCount,
-                      totalQuestions: cat.totalQuestions
-                    })}
-                  >
-                    {catDynamics >= 0 ? '+' : ''}{catDynamics.toFixed(2)}
-                  </td>
-                );
-              })}
-            </tr>
-          </tbody>
-        </table>
+              <tr className="data-row dynamics-row">
+                <td className="row-label">Динамика</td>
+                {categories.map((cat, catIndex) => {
+                  const catSelfAudit = cat.value ?? 0;
+                  const catAudit = cat.auditValue ?? 0;
+                  const catDynamics = catAudit - catSelfAudit;
+                  const bgColor = getDynamicsColor(catDynamics);
+                  
+                  return (
+                    <td 
+                      key={`dynamics-table${tableIndex}-cat${catIndex}`}
+                      className="data-cell dynamics"
+                      style={{ backgroundColor: bgColor, cursor: 'pointer', color: COLORS.white }}
+                      onClick={() => onCategoryClick && onCategoryClick({
+                        name: cat.name,
+                        selfAudit: cat.value,
+                        auditValue: cat.auditValue,
+                        sectionName: cat.sectionName,
+                        selfAuditCount: cat.selfAuditCount,
+                        auditCount: cat.auditCount,
+                        totalQuestions: cat.totalQuestions
+                      })}
+                    >
+                      {catDynamics >= 0 ? '+' : ''}{catDynamics.toFixed(2)}
+                    </td>
+                  );
+                })}
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   return (
     <Card style={{
@@ -187,20 +242,20 @@ export default function HeatMap({ data, onCategoryClick, hideLegend = false }) {
             <strong>Условные обозначения:</strong>
           </div>
           <div className="d-flex flex-wrap gap-4 justify-content-center" style={{ fontSize: '16px' }}>
-            <span style={{
-              display: 'inline-flex',
-              alignItems: 'center',
+            <span style={{ 
+              display: 'inline-flex', 
+              alignItems: 'center', 
               gap: '8px',
               padding: '8px 16px',
               background: '#ffffff',
               borderRadius: '6px',
               border: '1px solid #dee2e6'
             }}>
-              <span style={{
-                display: 'inline-block',
+              <span style={{ 
+                display: 'inline-block', 
                 width: '32px',
                 height: '32px',
-                background: COLORS.lightBlue,
+                background: COLORS.lightBlue, 
                 color: COLORS.darkBlue,
                 fontWeight: 'bold',
                 textAlign: 'center',
@@ -209,22 +264,22 @@ export default function HeatMap({ data, onCategoryClick, hideLegend = false }) {
                 fontSize: '14px',
                 whiteSpace: 'nowrap'
               }}>0.00</span>
-              <span style={{ fontFamily: 'Arial, sans-serif', fontWeight: '700', whiteSpace: 'nowrap' }}>Самоаудит</span>
+              <span style={{ fontFamily: 'Arial, sans-serif', fontWeight: '700', whiteSpace: 'nowrap' }}>Результат самоаудита</span>
             </span>
-            <span style={{
-              display: 'inline-flex',
-              alignItems: 'center',
+            <span style={{ 
+              display: 'inline-flex', 
+              alignItems: 'center', 
               gap: '8px',
               padding: '8px 16px',
               background: '#ffffff',
               borderRadius: '6px',
               border: '1px solid #dee2e6'
             }}>
-              <span style={{
-                display: 'inline-block',
+              <span style={{ 
+                display: 'inline-block', 
                 width: '32px',
                 height: '32px',
-                background: COLORS.brightGreen,
+                background: COLORS.brightGreen, 
                 color: COLORS.white,
                 fontWeight: 'bold',
                 textAlign: 'center',
@@ -235,20 +290,20 @@ export default function HeatMap({ data, onCategoryClick, hideLegend = false }) {
               }}>0.00</span>
               <span style={{ fontFamily: 'Arial, sans-serif', fontWeight: '700', whiteSpace: 'nowrap' }}>Аудит ≥ Самоаудита / Динамика ≥ 0</span>
             </span>
-            <span style={{
-              display: 'inline-flex',
-              alignItems: 'center',
+            <span style={{ 
+              display: 'inline-flex', 
+              alignItems: 'center', 
               gap: '8px',
               padding: '8px 16px',
               background: '#ffffff',
               borderRadius: '6px',
               border: '1px solid #dee2e6'
             }}>
-              <span style={{
-                display: 'inline-block',
+              <span style={{ 
+                display: 'inline-block', 
                 width: '32px',
                 height: '32px',
-                background: COLORS.brightRed,
+                background: COLORS.brightRed, 
                 color: COLORS.white,
                 fontWeight: 'bold',
                 textAlign: 'center',

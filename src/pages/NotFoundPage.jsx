@@ -56,7 +56,7 @@ export default function NotFoundPage() {
                   fontWeight: '600'
                 }}
               >
-                🏠 На главную
+                На главную
               </Button>
             </Link>
             

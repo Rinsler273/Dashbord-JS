@@ -77,7 +77,7 @@ export default function RatingPage() {
   const getTrendIcon = (diff) => {
     if (diff > 0) return <span style={{ color: COLORS.brightGreen }}>▲</span>;
     if (diff < 0) return <span style={{ color: COLORS.brightRed }}>▼</span>;
-    return <span style={{ color: COLORS.darkBlue }}>●</span>;
+    return <span style={{ color: COLORS.darkBlue }}>—</span>;
   };
 
   const handleSort = (field) => {
@@ -134,14 +134,13 @@ export default function RatingPage() {
             <Card.Body className="d-flex justify-content-between align-items-center flex-wrap">
               <div>
                 <h2 className="mb-1">
-                  <i className="fas fa-chart-line me-2"></i>
                   Рейтинг предприятий
                 </h2>
                 <p className="mb-0 opacity-75">Сравнение результатов аудита всех предприятий</p>
               </div>
               <div className="mt-2 mt-sm-0">
                 <Link to="/" className="btn btn-outline-light">
-                  <i className="fas fa-home me-1"></i> На главную
+                  На главную
                 </Link>
               </div>
             </Card.Body>
