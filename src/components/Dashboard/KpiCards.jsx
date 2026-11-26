@@ -13,6 +13,7 @@ const COLORS = {
 export default function KpiCards({ totalProgress, pointsToGoal, bestSection, worstSection }) {
   return (
     <Row className="mb-4">
+      {/* Общий прогресс от аудита */}
       <Col md={3}>
         <Card className="h-100" style={{
           background: COLORS.darkBlue,
@@ -30,11 +31,12 @@ export default function KpiCards({ totalProgress, pointsToGoal, bestSection, wor
         </Card>
       </Col>
 
+      {/* До цели */}
       <Col md={3}>
         <Card className="h-100" style={{
           background: COLORS.darkBlue,
           color: COLORS.white,
-          border: `1px solid ${COLORS.darkBlue}`,
+          border: 'none',
           borderRadius: '8px'
         }}>
           <Card.Body>
@@ -47,11 +49,12 @@ export default function KpiCards({ totalProgress, pointsToGoal, bestSection, wor
         </Card>
       </Col>
 
+      {/* Раздел-лидер */}
       <Col md={3}>
         <Card className="h-100" style={{
           background: COLORS.brightGreen,
           color: COLORS.white,
-          border: `0px solid ${COLORS.darkBlue}`,
+          border: 'none',
           borderRadius: '8px'
         }}>
           <Card.Body>
@@ -68,6 +71,7 @@ export default function KpiCards({ totalProgress, pointsToGoal, bestSection, wor
         </Card>
       </Col>
 
+      {/* Зона роста */}
       <Col md={3}>
         <Card className="h-100" style={{
           background: COLORS.brightRed,

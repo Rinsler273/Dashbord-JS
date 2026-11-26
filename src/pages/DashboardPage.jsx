@@ -169,13 +169,14 @@ export default function DashboardPage() {
   const totalProgress = esteemSummary !== null ? Math.round((esteemSummary / 5) * 100) : 0;
   const pointsToGoal = summary !== null ? (5 - summary).toFixed(1) : 0;
 
-  const bestSection = chartData.length > 0
-    ? chartData.reduce((max, item) => item.value2 > max.value2 ? item : max, chartData[0])
+  // Используем filteredChartData для лучшего/худшего раздела (с учётом фильтра)
+  const bestSection = filteredChartData.length > 0
+    ? filteredChartData.reduce((max, item) => item.value2 > max.value2 ? item : max, filteredChartData[0])
     : null;
 
-  const worstSection = chartData.length > 0
-    ? chartData.reduce((min, item) => item.value2 < min.value2 ? item : min, chartData[0])
-    : null;
+  const worstSection = filteredChartData.length > 0
+    ? filteredChartData.reduce((min, item) => item.value2 < min.value2 ? item : min, filteredChartData[0])
+  : null;
 
   return (
     <div>

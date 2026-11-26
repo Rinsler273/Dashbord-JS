@@ -25,7 +25,7 @@ export default function CategoryDetailModal({ show, onHide, category }) {
     <Modal show={show} onHide={onHide} centered size="lg">
       <Modal.Header closeButton style={{ background: COLORS.darkBlue, color: COLORS.white }}>
         <Modal.Title>
-          Детали категории
+          Детали критерия
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
